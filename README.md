@@ -5,7 +5,6 @@ c'est le repository du projet en react
 
 
 //index.js 
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -94,3 +93,4 @@ class Calculatrice extends React.Component {
 }
 
 ReactDOM.render(<Calculatrice/>, document.getElementById('root'));
+
