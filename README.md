@@ -9,12 +9,10 @@ import App from './App';
 
 
 class BoutonCalc extends React.Component {
-
-
     render() {
         return (
-            <button onClick={this.props.onClick}>
-                {this.props.label}
+            <button
+                onClick={this.props.onClick}>
             </button>
         )
     }
@@ -25,60 +23,85 @@ class EcranCalc extends React.Component {
     render() {
         return (
             <div>
-                {this.props.displayvalue}
+                {this.props.valueToDisplay}
             </div>
 
         )
     }
-
-
 }
 
 class Calculatrice extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            displayvalue: 0,
-            operateur: null,
-            premiereVal:"",
-            deuxiemeVal:"",
-            result:"",
+            premiereVal:null,
+            deuxiemeVal:null,
+            operateur: "",
+            valueToDisplay:0,
         };
     }
 
 
     clear(){
         this.setState({
-            displayvalue:0,
-            operateur: null,
-            result:""
+            premiereVal:null,
+            deuxiemeVal:null,
+            operateur: "",
+            valueToDisplay:0,
         })
     }
-    //parsefloat
     ajouteValue(val){
-       if premiereVal ===""
-           else
+      if (this.state.premiereVal == null){
+           this.setState({premiereVal :val, valueToDisplay: val})
+       }
+       else {
+           this.setState({deuxiemeVal :val, valueToDisplay: val})
+       }
     }
 
-    ajouteOperation(oper){
-        this.setState({operateur:oper});
+
+    ajouteOperation(ope){
+        this.setState({operateur :ope})
     }
+
+
 
     calcul (){
-        const resultat = this.state.premiereVal+this.state.operateur+this.state.deuxiemeVal;
-        this.setState({result:resultat})
+
+        switch (this.state.operateur){
+            case "+" :
+                this.setState({valueToDisplay: this.state.premiereVal + this.state.deuxiemeVal});
+                break;
+            case "-" :
+                this.setState({valueToDisplay: this.state.premiereVal - this.state.deuxiemeVal});
+                break;
+
+            case "/" :
+                this.setState({valueToDisplay: this.state.premiereVal / this.state.deuxiemeVal});
+                break;
+
+            case "*" :
+                this.setState({valueToDisplay: this.state.premiereVal * this.state.deuxiemeVal});
+                break;
+
+            default:
+                this.setState({valueToDisplay: "return"});
+        }
+
+        this.setState({premiereVal:this.state.valueToDisplay});
+
 
     }
 
     render() {
-        console.log(this.state.result);
+        console.log(this.state.valueToDisplay);
         return (
             <div>
-                <div>  {this.state.result} </div>
-                <button onClick={()=>this.ajouteValue(1)}>1</button>
-                <button onClick={()=>this.ajouteValue(2)}>2</button>
-                <button onClick={()=>this.ajouteValue(3)}>3</button>
-                <button onClick={()=>this.ajouteOperation("+")}>+</button><br />
+                <EcranCalc  valueToDisplay = {this.state.valueToDisplay} />
+                <button onClick={() => this.ajouteValue(1)}>1</button>
+                <button onClick={() => this.ajouteValue(2)}>2</button>
+                <button onClick={() => this.ajouteValue(3)}>3</button>
+                <button onClick={() => this.ajouteOperation("+")}>+</button><br />
 
                 <button onClick={()=>this.ajouteValue(4)}>4</button>
                 <button onClick={()=>this.ajouteValue(5)}>5</button>
@@ -93,6 +116,7 @@ class Calculatrice extends React.Component {
                 <button onClick={()=>this.ajouteValue(0)}>0</button>
                 <button onClick={()=>this.ajouteValue(".")}>.</button>
                 <button onClick={()=>this.ajouteOperation("/")}>/</button>
+
                 <button onClick={()=>this.calcul()}>=</button><br />
 
                 <button onClick={()=>this.clear()}>C</button><br />
@@ -108,9 +132,4 @@ ReactDOM.render(<Calculatrice/>, document.getElementById('root'));
 
 
 
-//trouver un moyen d'avoir une valeur, qui est initialiser au premier clique
-//initialiser la valeur de opération
-//initialiser la deuxieme valeur
-//calculer en fonction de operation
-//mettre le resulat dans result ou display operation
-//l'afficher dans la div
+
