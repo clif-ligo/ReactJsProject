@@ -25,6 +25,19 @@ class EcranCalc extends React.Component {
     }
 }
 
+class EcranHistorique extends React.Component {
+    render() {
+        return (
+            <div>
+                {this.props.valueToDisplay}
+            </div>
+
+        )
+    }
+}
+
+
+
 class Calculatrice extends React.Component {
     constructor(props){
         super(props);
@@ -33,6 +46,7 @@ class Calculatrice extends React.Component {
             deuxiemeVal:"",
             operateur: "",
             valueToDisplay:"",
+            historique:"",
         };
     }
 
@@ -62,11 +76,7 @@ class Calculatrice extends React.Component {
         else {
             this.setState({operateur :ope})
         }
-
-
-
     }
-
 
     calcul (){
         switch (this.state.operateur){
@@ -89,7 +99,7 @@ class Calculatrice extends React.Component {
                 this.setState({valueToDisplay: "erreur"});
                 break;
         }
-
+        this.setState({historique: this.state.historique.concat("["+ this.state.premiereVal, this.state.operateur, this.state.deuxiemeVal + "], ")});
 
     }
 
@@ -99,7 +109,6 @@ class Calculatrice extends React.Component {
         console.log("deuxieme val : " + this.state.deuxiemeVal);
         console.log("val to display val : " + this.state.valueToDisplay);
         console.log("stop");
-
 
         return (
             <div>
@@ -124,10 +133,13 @@ class Calculatrice extends React.Component {
                 <button onClick={()=>this.ajouteOperation("/")}>/</button>
 
                 <button onClick={()=>this.calcul()}>=</button><br />
-
                 <button onClick={()=>this.clear()}>C</button><br />
 
+               <EcranHistorique valueToDisplay = {this.state.historique} />
+
             </div>
+
+
         )
     }
 
